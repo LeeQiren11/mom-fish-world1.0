@@ -18,6 +18,26 @@
 | Game 1 数值(P0-2) | 还清 3 亿的概率 ≈ 0.17%;金币在还掉 1200 万时就撞 1200 上限 | 收益/风险重排,模拟胜率:随机玩 6%、合理选 34%;金币按还款进度线性给 0–1200 |
 | 测试 | 无 | `npm test` 34 条测试(内存假 Supabase);`npm run e2e` 25 项真实 DB 校验;`npm run e2e:api` 16 项 HTTP 校验 |
 
+## 0.2 第四轮：P0/P1 收尾 + 上线准备（2026-11-22）
+
+| # | 问题（P1） | 修复 |
+| --- | --- | --- |
+| 6 | 推送文案指控者固定 "Lan" | `advanceTurn` 查上一轮 `vote_for=next.id` 的消息，取真实指控者名字传入 `maybePush`；默认值改 "Mọi người" |
+| 8 | 金币/战绩只存 localStorage，清缓存即丢 | 新增 `app/api/coins/route.ts`（写 `user_coins`/`game_logs`，身份取 session）；`coins.ts` 的 `recordResult` fire-and-forget 上报；`supabase.sql` 新增 `upsert_user_coins` RPC |
+| 10 | 分享按钮用 `navigator.share`，Mini App 内无效 | `GameShell.tsx` 改用 zmp-sdk `openShareSheet`（text 类型），浏览器 fallback 保留 |
+| 13 | `graph.zalo.me` 校验无缓存 | `zalo-auth.ts` 加 10 分钟内存缓存（只缓存成功结果） |
+
+**其他改动**：
+- 字体从 `next/font/google` 改为 `next/font/local`（Nunito 下载到 `app/fonts/`），构建不再依赖 Google Fonts 网络（部分环境被墙会导致 build 随机失败）。
+- `next.config.js` 生产环境禁用 webpack 缓存（`config.cache = false`），规避沙箱/CI 文件系统写缓存报 `No such file or directory`。
+
+**验证**：`npm run typecheck` 通过；`npm test` 40 条全过；`next build` 成功。
+
+**仍需人做（上线动作，非代码）**：
+- 创建 GitHub 仓库并推送（账号 LeeQiren11，本地已 git init + commit 46 文件）。
+- 配置真实 Supabase（跑 `supabase.sql`，注意新增的 `upsert_user_coins` 函数）。
+- Zalo 开发者平台建 Mini App、Vercel 部署、配 `SESSION_SECRET` 并删除 `ALLOW_GUEST_SESSION`/`ALLOW_DEV_BOTS`。
+
 ## 0.1 第三轮：代码审查修复（2026-11-21）
 
 | # | 问题 | 修复 |
