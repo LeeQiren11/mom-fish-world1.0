@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-press {
+  transition: transform 0.08s ease;
+}
+.btn-press:active {
+  transform: translateY(2px) scale(0.98);
+}
