@@ -4,24 +4,28 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { AD_REWARD, GAMES, MAX_ADS_PER_DAY, WEEKLY } from '@/lib/games';
 import { useStore, watchAd } from '@/lib/coins';
+import SplashAd from '@/components/SplashAd';
 
 export default function HomePage() {
   const store = useStore();
   const [adMsg, setAdMsg] = useState('');
   const played = GAMES.filter((g) => store.playedToday.includes(g.id)).length;
 
-  function onWatchAd() {
-    const ok = watchAd();
+  async function onWatchAd() {
+    const r = await watchAd();
     setAdMsg(
-      ok
-        ? `+${AD_REWARD} xu! • 金币+${AD_REWARD}`
-        : 'Hết lượt xem hôm nay • 今天次数已用完',
+      r.ok
+        ? `+${r.coins} xu! • 金币+${r.coins}`
+        : r.reason === 'limit'
+          ? 'Hết lượt xem hôm nay • 今天次数已用完'
+          : 'Chưa xem xong quảng cáo • 广告未看完',
     );
     setTimeout(() => setAdMsg(''), 2500);
   }
 
   return (
     <main className="space-y-4 p-4 pb-8">
+      <SplashAd />
       {/* Top card */}
       <section className="rounded-3xl bg-white p-4 shadow-lg">
         <div className="flex items-center justify-between">

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import GameShell from './GameShell';
+import ReviveAdButton from './ReviveAdButton';
 import { BOSS } from '@/lib/games';
 import { recordResult } from '@/lib/coins';
 
@@ -172,6 +173,7 @@ export default function Game2_Boss() {
           <button onClick={start} className="btn-press mt-3 rounded-2xl bg-white px-5 py-2 text-sm font-black text-slate-700 shadow">
             Chơi lại • 再来一局
           </button>
+          {!win && <ReviveAdButton label="Xem QC để hồi sinh • 看广告复活" onReward={start} />}
         </div>
       )}
     </GameShell>

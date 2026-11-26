@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import GameShell from './GameShell';
+import ReviveAdButton from './ReviveAdButton';
 import { MILKTEA, TEAS, formatVND, type Tea } from '@/lib/games';
 import { recordResult } from '@/lib/coins';
 
@@ -112,6 +113,7 @@ export default function Game3_MilkTea() {
           <button onClick={restart} className="btn-press mt-3 rounded-2xl bg-white px-5 py-2 text-sm font-black text-slate-700 shadow">
             Chơi lại • 再来一局
           </button>
+          {!win && <ReviveAdButton label="Xem QC để thêm 1 lượt • 看广告再加一次" onReward={restart} />}
         </div>
       )}
     </GameShell>

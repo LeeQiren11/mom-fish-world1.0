@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import GameShell from './GameShell';
+import ReviveAdButton from './ReviveAdButton';
 import { DUCK, FOODS, type Food } from '@/lib/games';
 import { recordResult } from '@/lib/coins';
 
@@ -125,6 +126,7 @@ export default function Game4_Duck() {
           <button onClick={restart} className="btn-press mt-3 rounded-2xl bg-white px-5 py-2 text-sm font-black text-slate-700 shadow">
             Chơi lại • 再来一局
           </button>
+          {status === 'lose' && <ReviveAdButton label="Xem QC để hồi sinh vịt • 看广告救活鸭子" onReward={restart} />}
         </div>
       )}
     </GameShell>

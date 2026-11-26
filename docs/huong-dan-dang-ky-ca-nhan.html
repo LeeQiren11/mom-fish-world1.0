@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hướng dẫn đăng ký Zalo Mini App theo hình thức cá nhân</title>
+<style>
+  :root { --sky:#0284c7; --slate:#1e293b; --muted:#64748b; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:"Helvetica Neue","Arial","Noto Sans",sans-serif; color:var(--slate); line-height:1.6; font-size:14px; background:#f0f9ff; }
+  .page { max-width:760px; margin:0 auto; padding:40px 48px; background:#fff; }
+  .cover { background:linear-gradient(135deg,#0284c7,#38bdf8); color:#fff; border-radius:16px; padding:36px 32px; text-align:center; margin-bottom:32px; }
+  .cover h1 { font-size:24px; font-weight:900; }
+  .cover .sub { font-size:14px; opacity:.92; margin-top:6px; }
+  h2 { font-size:18px; font-weight:800; color:var(--sky); margin:28px 0 10px; padding-bottom:6px; border-bottom:2px solid #e0f2fe; }
+  h3 { font-size:15px; font-weight:700; margin:18px 0 8px; }
+  p { margin:8px 0; }
+  ul,ol { margin:8px 0 8px 22px; }
+  li { margin:5px 0; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+  th,td { border:1px solid #cbd5e1; padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#e0f2fe; color:var(--sky); font-weight:700; }
+  .card { background:#f8fafc; border-left:4px solid var(--sky); border-radius:8px; padding:14px 16px; margin:12px 0; }
+  .tip { background:#ecfdf5; border-left:4px solid #10b981; color:#065f46; border-radius:8px; padding:12px 16px; margin:12px 0; }
+  .warn { background:#fef2f2; border-left:4px solid #ef4444; color:#991b1b; border-radius:8px; padding:12px 16px; margin:12px 0; }
+  .url { font-family:"Menlo","Consolas",monospace; background:#f1f5f9; color:#0f766e; padding:2px 6px; border-radius:4px; font-size:12px; word-break:break-all; }
+  .footer { text-align:center; color:var(--muted); font-size:12px; margin-top:32px; }
+  .check { color:#16a34a; font-weight:700; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="cover">
+    <h1>HƯỚNG DẪN ĐĂNG KÝ ZALO MINI APP</h1>
+    <div class="sub">Theo hình thức cá nhân — Danh sách tài liệu cần chuẩn bị</div>
+    <div class="sub">个人身份注册 Zalo Mini App 所需文件说明</div>
+  </div>
+
+  <h2>1. Tổng quan</h2>
+  <p>
+    Zalo Mini App cho phép <strong>cá nhân</strong> (không cần giấy phép kinh doanh / doanh nghiệp)
+    đăng ký và xuất bản ứng dụng. Quá trình gồm 3 giai đoạn:
+  </p>
+  <ol>
+    <li>Đăng ký tài khoản nhà phát triển (Developer Account).</li>
+    <li>Tạo ứng dụng (App) và cấu hình.</li>
+    <li>Nộp hồ sơ để xét duyệt và xuất bản (Publish).</li>
+  </ol>
+  <p>Dưới đây là danh sách tài liệu / thông tin cần chuẩn bị cho từng giai đoạn.</p>
+
+  <h2>2. Giai đoạn 1 — Đăng ký tài khoản nhà phát triển</h2>
+  <table>
+    <tr><th>Hạng mục</th><th>Chi tiết</th><th>Bắt buộc</th></tr>
+    <tr><td>Tài khoản Zalo cá nhân</td><td>Đăng ký bằng <strong>số điện thoại Việt Nam</strong> (bắt buộc). Tài khoản nên được xác thực danh tính (verified).</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Email</td><td>Email hợp lệ để nhận thông báo từ Zalo.</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Số điện thoại</td><td>Số Việt Nam để nhận mã OTP khi đăng nhập / xác thực.</td><td class="check">✔ Bắt buộc</td></tr>
+  </table>
+  <div class="tip">
+    💡 <strong>Lưu ý quan trọng:</strong> Zalo hiện chỉ hỗ trợ đăng ký bằng <strong>số điện thoại Việt Nam</strong>.
+    Nếu bạn không có số Việt Nam, cần có một số để nhận mã xác thực.
+  </div>
+
+  <h2>3. Giai đoạn 2 — Tạo ứng dụng (App)</h2>
+  <p>Khi tạo Mini App, bạn cần cung cấp:</p>
+  <table>
+    <tr><th>Hạng mục</th><th>Chi tiết</th><th>Bắt buộc</th></tr>
+    <tr><td>Tên ứng dụng</td><td>Tên hiển thị (tiếng Việt hoặc tiếng Anh), không trùng với ứng dụng khác.</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Ảnh đại diện (Icon)</td><td>Ảnh vuông, định dạng PNG/JPG, kích thước khuyến nghị <strong>240×240 px</strong>.</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Ảnh banner / ảnh quảng bá</td><td>Ảnh ngang, kích thước khuyến nghị <strong>320×180 px</strong> (hoặc theo yêu cầu mới nhất).</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Mô tả ứng dụng</td><td>Mô tả ngắn về chức năng (tiếng Việt).</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Danh mục (Category)</td><td>Chọn danh mục phù hợp (Giải trí, Trò chơi...).</td><td class="check">✔ Bắt buộc</td></tr>
+  </table>
+
+  <h2>4. Giai đoạn 3 — Nộp hồ sơ xét duyệt &amp; xuất bản</h2>
+  <p>Đây là giai đoạn cần chuẩn bị nhiều tài liệu nhất:</p>
+  <table>
+    <tr><th>Hạng mục</th><th>Chi tiết</th><th>Bắt buộc</th></tr>
+    <tr><td>Chính sách bảo mật (Privacy Policy)</td><td>Tài liệu <strong>bằng tiếng Việt</strong>, nêu rõ thông tin thu thập, mục đích sử dụng, quyền của người dùng. Nên đặt ở một URL truy cập được.</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Điều khoản sử dụng (Terms of Service)</td><td>Tài liệu quy định quyền và nghĩa vụ người dùng (tiếng Việt).</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Mô tả chức năng chi tiết</td><td>Giải thích ứng dụng làm gì, cách sử dụng (cho người xét duyệt).</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Ảnh chụp màn hình (Screenshots)</td><td>2–3 ảnh chụp giao diện chính của ứng dụng.</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Tài khoản test (Test Account)</td><td>Tài khoản Zalo mẫu để người xét duyệt đăng nhập kiểm tra.</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Khai báo quyền (Permissions)</td><td>Chỉ khai báo các quyền thực sự cần (vd: userinfo). Không khai báo thừa.</td><td class="check">✔ Bắt buộc</td></tr>
+    <tr><td>Chính sách quảng cáo / thu phí</td><td>Nêu rõ ứng dụng miễn phí hay có phí, có quảng cáo hay không.</td><td>◯ Nếu có</td></tr>
+  </table>
+
+  <h2>5. Tài liệu cá nhân (nếu được yêu cầu)</h2>
+  <p>Với hình thức <strong>cá nhân</strong>, Zalo thường KHÔNG yêu cầu giấy phép kinh doanh. Tuy nhiên,
+  trong một số trường hợp (ứng dụng thanh toán, tài chính...), có thể yêu cầu thêm:</p>
+  <ul>
+    <li><strong>CCCD / CMND</strong> (Căn cước công dân / Chứng minh nhân dân) — để xác minh danh tính.</li>
+    <li><strong>Số điện thoại + email</strong> để liên hệ.</li>
+  </ul>
+  <div class="warn">
+    ⚠️ <strong>Lưu ý:</strong> Nếu ứng dụng thuộc lĩnh vực đặc biệt (tài chính, y tế, trò chơi có thưởng...),
+    Zalo có thể yêu cầu <strong>giấy phép ngành</strong> hoặc tài liệu bổ sung theo quy định pháp luật Việt Nam.
+  </div>
+
+  <h2>6. Danh sách kiểm tra nhanh (Checklist)</h2>
+  <div class="card">
+    <ul>
+      <li>☐ Tài khoản Zalo cá nhân (số điện thoại Việt Nam, đã xác thực)</li>
+      <li>☐ Email hợp lệ</li>
+      <li>☐ Tên ứng dụng</li>
+      <li>☐ Ảnh icon (240×240 px)</li>
+      <li>☐ Ảnh banner (320×180 px)</li>
+      <li>☐ Mô tả ứng dụng (tiếng Việt)</li>
+      <li>☐ Chính sách bảo mật (tiếng Việt, có URL)</li>
+      <li>☐ Điều khoản sử dụng (tiếng Việt)</li>
+      <li>☐ 2–3 ảnh chụp màn hình</li>
+      <li>☐ Tài khoản test cho người xét duyệt</li>
+      <li>☐ Khai báo quyền hợp lý</li>
+      <li>☐ CCCD/CMND (nếu được yêu cầu)</li>
+    </ul>
+  </div>
+
+  <h2>7. Lưu ý quan trọng</h2>
+  <ul>
+    <li>Chính sách bảo mật <strong>phải bằng tiếng Việt</strong> — tài liệu tiếng Trung hoặc tiếng Anh sẽ bị từ chối.</li>
+    <li>Chỉ khai báo <strong>quyền tối thiểu</strong> cần thiết — khai báo thừa là nguyên nhân phổ biến bị từ chối.</li>
+    <li>Thời gian xét duyệt thường <strong>3–5 ngày làm việc</strong>.</li>
+    <li>Nếu dùng <strong>thông báo đẩy (push notification)</strong>, cần có <strong>Official Account (OA)</strong> đã xác thực.</li>
+    <li>Xuất bản Mini App là <strong>miễn phí</strong>; chỉ phát sinh phí khi dùng dịch vụ OA / thanh toán.</li>
+  </ul>
+
+  <div class="footer">
+    Tài liệu tham khảo — cập nhật 26/11/2026<br>
+    Để biết yêu cầu mới nhất, vui lòng truy cập <span class="url">https://mini.zalo.me</span> hoặc <span class="url">https://developers.zalo.me</span>
+  </div>
+
+</div>
+</body>
+</html>

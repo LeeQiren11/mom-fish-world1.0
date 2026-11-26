@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AD_REWARD, GAMES, MAX_ADS_PER_DAY, MAX_COINS_PER_GAME, calcCoins } from './games';
 import { API_BASE, authHeaders } from './client-auth';
+import { showRewardedAd } from './ads';
 
 const COIN_KEY = 'mfw_coins';
 const LOG_KEY = 'mfw_logs';
@@ -90,13 +91,29 @@ function readAds(): { day: string; count: number } {
   return a.day === today ? a : { day: today, count: 0 };
 }
 
-/** Quảng cáo giả (placeholder): +50 xu, tối đa 10 lần/ngày. */
-export function watchAd(): boolean {
+/** Đếm số lần xem quảng cáo hôm nay (để hạn chế 10 lần/ngày). */
+export function adsRemainingToday(): number {
+  return Math.max(0, MAX_ADS_PER_DAY - readAds().count);
+}
+
+/**
+ * Xem quảng cáo có thưởng thật (Zalo rewarded ad), nếu còn lượt hôm nay thì
+ * cộng +AD_REWARD xu. Trả về:
+ *  - { ok:true, coins }  khi xem xong và nhận thưởng
+ *  - { ok:false, reason:'limit' | 'cancelled' | 'error' } khi hết lượt / huỷ / lỗi
+ */
+export async function watchAd(): Promise<{ ok: boolean; coins?: number; reason?: string }> {
   const ads = readAds();
-  if (ads.count >= MAX_ADS_PER_DAY) return false;
+  if (ads.count >= MAX_ADS_PER_DAY) return { ok: false, reason: 'limit' };
+
+  const result = await showRewardedAd();
+  if (!result.completed) {
+    return { ok: false, reason: result.reason ?? 'cancelled' };
+  }
+
   write(AD_KEY, { day: ads.day, count: ads.count + 1 });
   addCoins(AD_REWARD);
-  return true;
+  return { ok: true, coins: AD_REWARD };
 }
 
 export function takeSnapshot(): Snapshot {
