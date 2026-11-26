@@ -29,17 +29,33 @@ export interface AdResult {
 
 const isBrowser = () => typeof window !== 'undefined';
 
-/** Ứng dụng có chạy trong Zalo Mini App không (có window.zalo / zmp bridge). */
+/**
+ * Kiểm tra có đang chạy trong môi trường Zalo Mini App không.
+ * Zalo Mini App dùng `window.zalo` làm bridge chính (do zmp-sdk inject),
+ * nhưng một số phiên bản dùng tên khác. Ta kiểm tra nhiều dấu hiệu để không
+ * bỏ sót môi trường thật — sai sót ở đây sẽ khiến app luôn rơi về "ad giả".
+ */
 function inZaloMiniApp(): boolean {
   if (!isBrowser()) return false;
-  // Zalo Mini App chạy trong webview có window.zalo hoặc ZMA bridge.
   const w = window as unknown as Record<string, unknown>;
-  return typeof w.zalo === 'object' || typeof (w as { ZMA?: unknown }).ZMA === 'object';
+  const w2 = window as unknown as { zalo?: unknown; ZMA?: unknown; zma?: unknown };
+  // Dấu hiệu bridge: window.zalo, window.ZMA, window.zma, hoặc query đặc trưng của Zalo.
+  if (typeof w2.zalo === 'object' && w2.zalo !== null) return true;
+  if (typeof w2.ZMA === 'object' && w2.ZMA !== null) return true;
+  if (typeof w2.zma === 'object' && w2.zma !== null) return true;
+  // Zalo Mini App webview thường mang query zalo=true / zmp=true hoặc host *.zdn.vn / *.zaloapp.com.
+  const loc = w.location as { host?: string; search?: string } | undefined;
+  const host = (loc && loc.host) || '';
+  if (/(zdn\.vn|zaloapp\.com|zaloweb\.me|zalo\.me)$/i.test(host)) return true;
+  const query = (loc && loc.search) || '';
+  if (/[?&](zalo|zmp|appId)=/i.test(query)) return true;
+  return false;
 }
 
 /**
- * Import zmp-sdk/apis an toàn: trả null nếu không phải Zalo Mini App
- * hoặc phiên bản không có API quảng cáo.
+ * Import zmp-sdk/apis an toàn: trả null nếu SDK thiếu API quảng cáo.
+ * (Không còn phụ thuộc inZaloMiniApp() để quyết định có import không —
+ *  ta luôn thử import, rồi dùng inZaloMiniApp() ở tầng gọi để fallback.)
  */
 async function zmpAds(): Promise<{
   setupAd: () => Promise<void>;
@@ -47,7 +63,6 @@ async function zmpAds(): Promise<{
   displayAd: (args: { id: string }) => Promise<void>;
   refreshAd: (args: { id?: string }) => Promise<void>;
 } | null> {
-  if (!inZaloMiniApp()) return null;
   try {
     const apis = await import('zmp-sdk/apis');
     if (apis && typeof apis.loadAd === 'function' && typeof apis.displayAd === 'function') {
@@ -82,9 +97,15 @@ export async function setupAds(): Promise<void> {
  *   để luồng chơi không bị kẹt khi dev/test trên trình duyệt.
  */
 export async function showRewardedAd(timeoutMs = 20000): Promise<AdResult> {
+  // Không chạy trong Zalo Mini App => fallback mock (mô phỏng xem xong).
+  if (!inZaloMiniApp()) {
+    await sleep(1500);
+    return { completed: true, reason: 'not_supported' };
+  }
+
   const ads = await zmpAds();
   if (!ads) {
-    // Fallback mock: mô phỏng xem quảng cáo (~1.5s) rồi hoàn thành.
+    // SDK không có API quảng cáo => fallback mock để không chặn người chơi.
     await sleep(1500);
     return { completed: true, reason: 'not_supported' };
   }
@@ -104,15 +125,16 @@ export async function showRewardedAd(timeoutMs = 20000): Promise<AdResult> {
       .loadAd({
         ids: ['ZMA_Reward'],
         config: {
-          display: true,
-          // onClose nhận reward token => xem xong
+          display: false,
+          // onClose nhận reward token => xem xong. Chỉ kích hoạt khi ad đã display.
           onClose: () => finish({ completed: true }),
         },
       })
       .then(() => ads.displayAd({ id: 'ZMA_Reward' }))
       .catch(() => {
-        // load/display lỗi => thử mock fallback để không chặn người chơi
-        sleep(1200).then(() => finish({ completed: true, reason: 'error' }));
+        // load/display lỗi => KHÔNG tự mock thưởng khi đang ở môi trường Zalo thật,
+        // để tránh phát thưởng khi chưa xem quảng cáo. Trả về cancelled.
+        finish({ completed: false, reason: 'error' });
       });
   });
 }
@@ -122,6 +144,12 @@ export async function showRewardedAd(timeoutMs = 20000): Promise<AdResult> {
  * hoặc chuyển trang. Không có thưởng.
  */
 export async function showFullscreenAd(timeoutMs = 15000): Promise<AdResult> {
+  // Không chạy trong Zalo Mini App => fallback mock.
+  if (!inZaloMiniApp()) {
+    await sleep(1000);
+    return { completed: true, reason: 'not_supported' };
+  }
+
   const ads = await zmpAds();
   if (!ads) {
     await sleep(1000);
@@ -142,7 +170,7 @@ export async function showFullscreenAd(timeoutMs = 15000): Promise<AdResult> {
       .loadAd({ ids: ['ZMA_Fullscreen'], config: { display: true } })
       .then(() => ads.displayAd({ id: 'ZMA_Fullscreen' }))
       .then(() => finish({ completed: true }))
-      .catch(() => sleep(800).then(() => finish({ completed: true, reason: 'error' })));
+      .catch(() => finish({ completed: false, reason: 'error' }));
   });
 }
 
